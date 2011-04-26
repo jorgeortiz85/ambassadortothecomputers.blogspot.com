@@ -1,4 +1,13 @@
-class Bridge(Logic: Logic) {
+object App {
+  val l = LogicList
+  val b = new Bridge {
+    override val Logic = l
+  }
+  println(l.run(b.search, 2))
+}
+
+trait Bridge {
+  val Logic: Logic
   import Logic._
 
   object Person extends Enumeration {
@@ -47,11 +56,8 @@ class Bridge(Logic: Logic) {
          path <- tree(state :: path)
        } yield path)
 
-  def search(n: Int): List[List[State]] = {
+  def search: T[List[State]] = {
     val start = List(State(Person.all, true, 60))
-    val t =
-      for { path <- tree(start); if path.head.left == Nil }
-      yield path
-    run(t, n)
+    for { path <- tree(start); if path.head.left == Nil } yield path
   }
 }
