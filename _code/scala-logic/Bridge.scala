@@ -1,13 +1,10 @@
 object App {
   val l = LogicList
-  val b = new Bridge {
-    override val Logic = l
-  }
+  val b = new Bridge(l)
   println(l.run(b.search, 2))
 }
 
-trait Bridge {
-  val Logic: Logic
+class Bridge[L <: Logic](val Logic: L) {
   import Logic._
 
   object Person extends Enumeration {
